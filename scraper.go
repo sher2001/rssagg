@@ -47,7 +47,7 @@ func scrapeFeed(db *database.Queries, feed database.Feed, wg *sync.WaitGroup) {
 
 	// Testing purpose
 	for _, item := range rssFeed.Channel.Item {
-		log.Println("Found Post: ", item.Title)
+		log.Printf("Found Post: %v, on feed: %v", item.Title, feed.Name)
 	}
 	log.Printf("Feed %v connected, %v posts found", feed.Name, len(rssFeed.Channel.Item))
 }
