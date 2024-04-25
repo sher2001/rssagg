@@ -40,3 +40,15 @@ func (apiCfg *apiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Reques
 func (apiCfg *apiConfig) handlerGetUserByAPIKey(w http.ResponseWriter, r *http.Request, user database.User) {
 	respondWithJSON(w, 200, databaseUserToCustomUser(user))
 }
+
+func (apiCfg *apiConfig) handlerGetPostsForUser(w http.ResponseWriter, r *http.Request, user database.User) {
+	posts, err := apiCfg.DB.GetPostsForUser(r.Context(), database.GetPostsForUserParams{
+		UserID:  user.ID,
+		Column2: 10,
+	})
+	if err != nil {
+		respondWithError(w, 400, fmt.Sprintf("error while getting posts: %v", err))
+	}
+
+	respondWithJSON(w, 200, databasePostsToCustomFeedPosts(posts))
+}
